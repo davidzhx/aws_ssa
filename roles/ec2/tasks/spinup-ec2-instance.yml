@@ -1,0 +1,143 @@
+# Create an EC2 instance and put it into the previously created public subnet a
+- name: Launch EC2 Instance in AZ 1a
+  ec2:
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    group_id: "{{ aws_sg_ec2.group_id }}"
+    vpc_subnet_id: "{{ hostvars['localhost'].public_subneta.subnet.id }}"
+    instance_type: "{{ ec2_instance_type }}"
+    image: "{{ image }}"
+    count: 1
+    region: "{{ ec2_region }}"
+    keypair: "{{ keypair }}"
+    assign_public_ip: yes
+    state: present
+    wait: yes
+    instance_tags:
+      web: ssa_web_a
+  register: ec2a
+
+# Create an EC2 instance and put it into the previously created public subnet b
+- name: Launch EC2 Instance AZ 1b
+  ec2:
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    group_id: "{{ aws_sg_ec2.group_id }}"
+    vpc_subnet_id: "{{ hostvars['localhost'].public_subnetb.subnet.id }}"
+    instance_type: "{{ ec2_instance_type }}"
+    image: "{{ image }}"
+    count: 1
+    region: "{{ ec2_region }}"
+    keypair: "{{ keypair }}"
+    assign_public_ip: yes
+    state: present
+    wait: yes
+    instance_tags:
+      web: ssa_web_b
+  register: ec2b
+
+# Wait for public ip address become to be available
+- name: Sleep for 10 seconds and continue with play - public IP of EC2 should be available by then
+  wait_for:
+    timeout: 10
+  delegate_to: localhost
+
+- name: Add new Instance to Host group AZ 1a
+  add_host:
+      hostname: "{{ item.public_ip }}"
+      groupname: ssa_webserver
+  loop: "{{ ec2a.instances }}"
+
+- name: Add new Instance to Host group AZ 1b
+  add_host:
+      hostname: "{{ item.public_ip }}"
+      groupname: ssa_webserver
+  loop: "{{ ec2b.instances }}"
+
+- name: Wait for SSH in Instance AZ 1a
+  wait_for:
+      host: "{{ item.public_dns_name }}"
+      port: 22
+      state: started
+  loop: "{{ ec2a.instances }}"
+
+- name: Wait for SSH in Instance AZ 1b
+  wait_for:
+      host: "{{ item.public_dns_name }}"
+      port: 22
+      state: started
+  loop: "{{ ec2b.instances }}"
+
+#Set up App Load Balancer
+
+#Set up LB target group
+- name: Create a target group with instance targets
+  elb_target_group:
+    name: ssa-lb-targets-ec2s
+    protocol: http
+    port: 80
+    vpc_id: "{{ vpc.vpc.id }}"
+    health_check_protocol: http
+    health_check_path: /health_check
+    successful_response_codes: "200,250-260"
+    targets:
+      - Id: "{{ ec2a.instances[0].id }}"
+        Port: 80
+      #- Id: "{{ ec2a.instances[1].id }}"
+      #  Port: 80
+      - Id: "{{ ec2b.instances[0].id }}"
+        Port: 80
+      #- Id: "{{ ec2b.instances[1].id }}"
+      #  Port: 80        
+    state: present
+
+# Create an ALB and attach a listener
+- name: Create Load Balancer for Web App ALB
+  elb_application_lb:
+    name: ssa-alb
+    security_groups:
+      - "{{ lb_group_id }}"
+    subnets:
+      - "{{ hostvars['localhost'].public_subneta.subnet.id }}"
+      - "{{ hostvars['localhost'].public_subnetb.subnet.id }}"
+    listeners:
+      - Protocol: HTTP
+        Port: 80
+        DefaultActions:
+          - Type: forward
+            TargetGroupName: ssa-lb-targets-ec2s
+    state: present
+
+# Create ELB
+# - name: Create Load Balancer for Web App ELB
+#   ec2_elb_lb:
+#     name:                     "{{ vpc_name }}-webapp-elb"
+#     state:                    "present"
+#     region:                   "{{ ec2_region }}"
+#     security_group_ids:       "{{ lb_group_id }}"
+#     cross_az_load_balancing:  "yes"
+#     instance_ids:
+#       - "{{ item.id }}"
+#     subnets:
+#       - "{{ hostvars['localhost'].public_subneta.subnet.id }}"
+#       - "{{ hostvars['localhost'].public_subnetb.subnet.id }}"
+#     listeners:
+#       - protocol:             tcp
+#         load_balancer_port:   80
+#         instance_port:        80
+#         proxy_protocol:       false
+#       - protocol:             tcp
+#         load_balancer_port:   443
+#         instance_port:        443
+#         proxy_protocol:       false
+#     health_check:
+#       ping_protocol:          tcp
+#       ping_port:              80
+#       ping_path:              "/health_check"
+#       response_timeout:       5
+#       interval:               30
+#       unhealthy_threshold:    2
+#       healthy_threshold:      10
+#   with_flattened:
+#     - "{{ ec2a.instances }}"
+#     - "{{ ec2b.instances }}"

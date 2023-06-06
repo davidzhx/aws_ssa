@@ -1,0 +1,5 @@
+keypair_name: "ec2_key_pair2"
+
+#The local path to which we would save our EC2 Private Key
+ec2_key_directory: "/Users/dave/Desktop/ansible/keypair/"
+

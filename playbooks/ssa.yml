@@ -1,0 +1,8 @@
+---
+
+# Install SSA web server and all its dependencies on the provisioned EC2 instances
+ - hosts: ssa_webserver
+   remote_user: "{{ user }}"
+   become: yes
+   roles:
+   - httpdserver

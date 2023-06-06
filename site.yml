@@ -1,0 +1,10 @@
+#!/usr/bin/env ansible-playbook
+
+# create ec2 keypair
+#- import_playbook: ./playbooks/keypair.yml 
+ 
+# provision everything on AWS
+- import_playbook: ./playbooks/aws_provisioning.yml 
+
+# install httpd and config
+- import_playbook: ./playbooks/ssa.yml 

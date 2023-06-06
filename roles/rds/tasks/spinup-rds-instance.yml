@@ -1,0 +1,60 @@
+# Create the subnet group with the three private subnets
+- name: RDS Subnet group
+  rds_subnet_group:
+    name: "SSADBSubnetGroup"
+    description: "SubnetGroup for SSA DB"
+    state: present
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    subnets:
+      - "{{ hostvars['localhost'].vpc_subnet_ids['private-a'] }}"
+      - "{{ hostvars['localhost'].vpc_subnet_ids['private-b'] }}"
+      - "{{ hostvars['localhost'].vpc_subnet_ids['private-c'] }}"
+  register: subnet_group
+
+
+# Create the RDS instance
+- name: Spinup RDS instance in AZ 1a
+  rds_instance:
+      aws_access_key: "{{ aws_access_key }}"
+      aws_secret_key: "{{ aws_secret_key }}"
+      master_username: "{{ username }}"
+      master_user_password: "{{ password }}"
+      engine: "{{ db_engine }}"
+      allocated_storage: "{{ db_size }}"
+      region: "{{ rds_region }}"
+      az: "{{ rds_region }}a"
+      db_subnet_group_name: "{{ subnet_group.subnet_group.name }}"
+      db_name: "{{ db_name }}_a"
+      db_instance_identifier: "{{ instance_name }}-a"
+      port: "{{ db_port }}"
+      auto_minor_version_upgrade: "{{ minor_updates }}"
+      allow_major_version_upgrade: "{{ major_updates }}"
+      db_instance_class: "{{ instance_type }}"
+      vpc_security_group_ids: "{{ aws_sg_rds.group_id }}"      
+      backup_retention_period: 10
+      preferred_backup_window: "01:01-02:01"
+  register: rds
+
+# Create the RDS instance
+- name: Spinup RDS instance in AZ 1b
+  rds_instance:
+      aws_access_key: "{{ aws_access_key }}"
+      aws_secret_key: "{{ aws_secret_key }}"
+      master_username: "{{ username }}"
+      master_user_password: "{{ password }}"
+      engine: "{{ db_engine }}"
+      allocated_storage: "{{ db_size }}"
+      region: "{{ rds_region }}"
+      az: "{{ rds_region }}b"
+      db_subnet_group_name: "{{ subnet_group.subnet_group.name }}"
+      db_name: "{{ db_name }}_b"
+      db_instance_identifier: "{{ instance_name }}-b"
+      port: "{{ db_port }}"
+      auto_minor_version_upgrade: "{{ minor_updates }}"
+      allow_major_version_upgrade: "{{ major_updates }}"
+      db_instance_class: "{{ instance_type }}"
+      vpc_security_group_ids: "{{ aws_sg_rds.group_id }}"      
+      backup_retention_period: 10
+      preferred_backup_window: "01:01-02:01"
+  register: rds2

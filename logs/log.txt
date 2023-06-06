@@ -1,0 +1,108 @@
+2022-10-31 13:47:47,412 p=4319 u=dave n=ansible | PLAY [ssa_webserver] ***********************************************************
+2022-10-31 13:47:47,425 p=4319 u=dave n=ansible | TASK [Gathering Facts] *********************************************************
+2022-10-31 13:47:48,414 p=4319 u=dave n=ansible | fatal: [13.229.49.204]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ec2-user@13.229.49.204: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).", "unreachable": true}
+2022-10-31 13:48:27,829 p=4319 u=dave n=ansible |  [ERROR]: User interrupted execution
+
+2022-10-31 13:49:57,397 p=4338 u=dave n=ansible | PLAY [ssa_webserver] ***********************************************************
+2022-10-31 13:49:57,409 p=4338 u=dave n=ansible | TASK [Gathering Facts] *********************************************************
+2022-10-31 13:50:02,483 p=4338 u=dave n=ansible | [WARNING]: Platform linux on host ec2-18-139-229-53.ap-
+southeast-1.compute.amazonaws.com is using the discovered Python interpreter at
+/usr/bin/python3.7, but future installation of another Python interpreter could
+change the meaning of that path. See https://docs.ansible.com/ansible-
+core/2.13/reference_appendices/interpreter_discovery.html for more information.
+
+2022-10-31 13:50:02,483 p=4338 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 13:50:02,495 p=4338 u=dave n=ansible | TASK [httpdserver : Installing httpd software] *********************************
+2022-10-31 13:50:06,166 p=4338 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 13:50:06,178 p=4338 u=dave n=ansible | TASK [httpdserver : Copying webpage] *******************************************
+2022-10-31 13:50:09,982 p=4338 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 13:50:09,991 p=4338 u=dave n=ansible | TASK [httpdserver : Copying health_check] **************************************
+2022-10-31 13:50:13,592 p=4338 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 13:50:13,600 p=4338 u=dave n=ansible | TASK [httpdserver : Copying aws_backup.sh script] ******************************
+2022-10-31 13:50:18,256 p=4338 u=dave n=ansible | fatal: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]: FAILED! => {"changed": false, "checksum": "08d5f467e6be5a2db1758fb4a4f7eb3738f5ebd8", "msg": "Destination directory /home/\"ec2-user\" does not exist"}
+2022-10-31 13:50:18,258 p=4338 u=dave n=ansible | PLAY RECAP *********************************************************************
+2022-10-31 13:50:18,258 p=4338 u=dave n=ansible | ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com : ok=4    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2022-10-31 13:50:51,623 p=4404 u=dave n=ansible | PLAY [ssa_webserver] ***********************************************************
+2022-10-31 13:50:51,634 p=4404 u=dave n=ansible | TASK [Gathering Facts] *********************************************************
+2022-10-31 13:50:54,961 p=4404 u=dave n=ansible | [WARNING]: Platform linux on host ec2-18-139-229-53.ap-
+southeast-1.compute.amazonaws.com is using the discovered Python interpreter at
+/usr/bin/python3.7, but future installation of another Python interpreter could
+change the meaning of that path. See https://docs.ansible.com/ansible-
+core/2.13/reference_appendices/interpreter_discovery.html for more information.
+
+2022-10-31 13:50:54,961 p=4404 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 13:50:54,971 p=4404 u=dave n=ansible | TASK [httpdserver : Installing httpd software] *********************************
+2022-10-31 13:50:58,112 p=4404 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 13:50:58,121 p=4404 u=dave n=ansible | TASK [httpdserver : Copying webpage] *******************************************
+2022-10-31 13:51:01,913 p=4404 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 13:51:01,921 p=4404 u=dave n=ansible | TASK [httpdserver : Copying health_check] **************************************
+2022-10-31 13:51:05,543 p=4404 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 13:51:05,551 p=4404 u=dave n=ansible | TASK [httpdserver : Copying aws_backup.sh script] ******************************
+2022-10-31 13:51:10,223 p=4404 u=dave n=ansible | changed: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 13:51:10,231 p=4404 u=dave n=ansible | TASK [httpdserver : Copying EC2 keypair] ***************************************
+2022-10-31 13:51:14,812 p=4404 u=dave n=ansible | changed: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 13:51:14,821 p=4404 u=dave n=ansible | TASK [httpdserver : Change ownership for web dir path] *************************
+2022-10-31 13:51:16,934 p=4404 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 13:51:16,944 p=4404 u=dave n=ansible | TASK [httpdserver : Starting httpd services] ***********************************
+2022-10-31 13:51:19,506 p=4404 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 13:51:19,515 p=4404 u=dave n=ansible | TASK [httpdserver : Configure AWS cli.] ****************************************
+2022-10-31 13:51:22,481 p=4404 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com] => (item=None)
+2022-10-31 13:51:24,998 p=4404 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com] => (item=None)
+2022-10-31 13:51:27,501 p=4404 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com] => (item=None)
+2022-10-31 13:51:30,006 p=4404 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com] => (item=None)
+2022-10-31 13:51:30,008 p=4404 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 13:51:30,026 p=4404 u=dave n=ansible | PLAY RECAP *********************************************************************
+2022-10-31 13:51:30,026 p=4404 u=dave n=ansible | ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com : ok=9    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2022-10-31 14:01:01,864 p=4579 u=dave n=ansible | PLAY [ssa_webserver] ***********************************************************
+2022-10-31 14:01:01,877 p=4579 u=dave n=ansible | TASK [Gathering Facts] *********************************************************
+2022-10-31 14:01:38,909 p=4579 u=dave n=ansible |  [ERROR]: User interrupted execution
+
+2022-10-31 14:01:41,375 p=4587 u=dave n=ansible | PLAY [ssa_webserver] ***********************************************************
+2022-10-31 14:01:41,387 p=4587 u=dave n=ansible | TASK [Gathering Facts] *********************************************************
+2022-10-31 14:01:46,648 p=4587 u=dave n=ansible | [WARNING]: Platform linux on host ec2-18-139-229-53.ap-
+southeast-1.compute.amazonaws.com is using the discovered Python interpreter at
+/usr/bin/python3.7, but future installation of another Python interpreter could
+change the meaning of that path. See https://docs.ansible.com/ansible-
+core/2.13/reference_appendices/interpreter_discovery.html for more information.
+
+2022-10-31 14:01:46,649 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 14:01:46,661 p=4587 u=dave n=ansible | TASK [httpdserver : Installing httpd software] *********************************
+2022-10-31 14:01:49,860 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 14:01:49,870 p=4587 u=dave n=ansible | TASK [httpdserver : Copying webpage] *******************************************
+2022-10-31 14:01:53,689 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 14:01:53,704 p=4587 u=dave n=ansible | TASK [httpdserver : Copying health_check] **************************************
+2022-10-31 14:01:57,380 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 14:01:57,388 p=4587 u=dave n=ansible | TASK [httpdserver : Copying aws_backup.sh script] ******************************
+2022-10-31 14:02:01,046 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 14:02:01,054 p=4587 u=dave n=ansible | TASK [httpdserver : Copying EC2 keypair] ***************************************
+2022-10-31 14:02:04,703 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 14:02:04,711 p=4587 u=dave n=ansible | TASK [httpdserver : Change ownership for web dir path] *************************
+2022-10-31 14:02:06,838 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 14:02:06,848 p=4587 u=dave n=ansible | TASK [httpdserver : Starting httpd services] ***********************************
+2022-10-31 14:02:09,365 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 14:02:09,375 p=4587 u=dave n=ansible | TASK [httpdserver : Configure AWS CLI default profile] *************************
+2022-10-31 14:02:12,034 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com] => (item=None)
+2022-10-31 14:02:14,566 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com] => (item=None)
+2022-10-31 14:02:17,101 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com] => (item=None)
+2022-10-31 14:02:19,617 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com] => (item=None)
+2022-10-31 14:02:19,619 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 14:02:19,627 p=4587 u=dave n=ansible | TASK [httpdserver : Configure AWS CLI cloud_admin profile] *********************
+2022-10-31 14:02:22,163 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com] => (item=None)
+2022-10-31 14:02:24,703 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com] => (item=None)
+2022-10-31 14:02:27,232 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com] => (item=None)
+2022-10-31 14:02:29,856 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com] => (item=None)
+2022-10-31 14:02:29,858 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 14:02:29,867 p=4587 u=dave n=ansible | TASK [httpdserver : Configure AWS CLI web_admin profile] ***********************
+2022-10-31 14:02:32,404 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com] => (item=None)
+2022-10-31 14:02:34,931 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com] => (item=None)
+2022-10-31 14:02:37,442 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com] => (item=None)
+2022-10-31 14:02:39,961 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com] => (item=None)
+2022-10-31 14:02:39,962 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 14:02:39,970 p=4587 u=dave n=ansible | TASK [httpdserver : Configure AWS CLI dev_ops profile] *************************
+2022-10-31 14:02:42,546 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com] => (item=None)
+2022-10-31 14:02:45,104 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com] => (item=None)
+2022-10-31 14:02:47,663 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com] => (item=None)
+2022-10-31 14:02:50,197 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com] => (item=None)
+2022-10-31 14:02:50,199 p=4587 u=dave n=ansible | ok: [ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com]
+2022-10-31 14:02:50,218 p=4587 u=dave n=ansible | PLAY RECAP *********************************************************************
+2022-10-31 14:02:50,218 p=4587 u=dave n=ansible | ec2-18-139-229-53.ap-southeast-1.compute.amazonaws.com : ok=12   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   

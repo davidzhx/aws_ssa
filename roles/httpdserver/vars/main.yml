@@ -1,0 +1,25 @@
+---
+# vars file for httpdserver
+
+aws_system_user: ec2-user
+aws_profile: default
+aws_access_key: "AKIAX63SIZE7C6IR5CQW"
+aws_secret_key: "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"
+aws_region: ap-southeast-1
+aws_format: json
+
+
+aws_profile1: cloud_admin
+aws_access_key1: "AKIAX63SIZE7PVDUXG4Z"
+aws_secret_key1: "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"
+
+aws_profile2: web_admin
+aws_access_key2: "AKIAX63SIZE7G46A6LH5"
+aws_secret_key2: "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"
+
+aws_profile3: dev_ops
+aws_access_key3: "AKIAX63SIZE7I57FS4X2"
+aws_secret_key3: "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"
+
+
+    

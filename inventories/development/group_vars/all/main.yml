@@ -1,0 +1,21 @@
+---
+# EC2 Configuration Items
+ec2_region: "ap-southeast-1"
+
+# RDS/ SSA DB Configuration Items
+db_name: ssa_db
+db_port: 5432
+db_engine: postgres
+db_ssl_enabled: false
+rds_region: "ap-southeast-1"
+
+# S3 Configuration Items
+s3_bucket_name: my-bucket-for-ssa
+s3_region: "ap-southeast-1"
+
+# VPC Configuration Items
+vpc_region: "ap-southeast-1"
+
+user: ec2-user
+web_path: /var/www/html/
+

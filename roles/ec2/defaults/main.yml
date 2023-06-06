@@ -1,0 +1,10 @@
+# defaults file for ec2
+security_group_description: "SSA Security Group EC2 Backend"
+security_group_name: "SSA EC2 SG"
+
+ec2_instance_type: "t1.micro"
+ec2_instance_name: "SSA Instance"
+
+# Check if this AMI is available in your desired AWS region
+image: ami-094bbd9e922dc515d
+keypair: ec2_key_pair

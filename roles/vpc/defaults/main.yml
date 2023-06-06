@@ -1,0 +1,39 @@
+# defaults file for vpc
+
+# Name of the VPC
+vpc_name: VPC-SSA-Backend
+
+# IP CIDR block for the VPC
+vpc_cidr_block: 10.0.0.0/16
+
+# Name of the public subnet
+public_subnet_name: Public Subnet SSA Deployment
+
+# Region of the public subnet
+public_subnet_aza: "{{ vpc_region }}a"
+public_subnet_azb: "{{ vpc_region }}b"
+public_subnet_azc: "{{ vpc_region }}c"
+
+# IP CIDR block for the public subnet
+public_subnet_cidr_blocka: 10.0.4.0/24
+public_subnet_cidr_blockb: 10.0.5.0/24
+public_subnet_cidr_blockc: 10.0.6.0/24
+
+# Name of the VPCs Internet gateway
+internet_gateway_name: SSA Deployment IGW
+
+# Name of the Route table
+routeTableName: rt-SSAPublicSubnet
+
+# Private subnets for the RDS Database group
+vpc_private_subnets:
+  private-a:
+    cidr: 10.0.1.0/24
+    az: "{{ vpc_region }}a"
+  private-b:
+    cidr: 10.0.2.0/24
+    az: "{{ vpc_region }}b"
+  private-c:
+    cidr: 10.0.3.0/24
+    az: "{{ vpc_region }}c"
+  

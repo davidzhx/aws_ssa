@@ -1,0 +1,110 @@
+
+- name: Installing httpd software
+  package:
+    name: 
+      - "httpd"
+      - "php"
+      - "postgresql"
+    state: present
+
+- name: Copying webpage
+  copy:
+    src: index.php
+    dest: "{{ web_path }}"
+
+- name: Copying health_check
+  copy:
+    src: health_check
+    dest: "{{ web_path }}"
+
+- name: Copying aws_backup.sh script
+  copy:
+    src: aws_backup.sh
+    dest: /home/{{ user }}/aws_backup.sh
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: '0655'
+
+- name: Copying EC2 keypair
+  copy:
+    src: EC2BackendKey.pem
+    dest: /home/{{ user }}/.ssh/EC2BackendKey.pem
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: '0600'
+
+- name: Change ownership for web dir path
+  file:
+    path: "{{ web_path }}"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    recurse: yes
+
+- name: Starting httpd services
+  service:
+    name: "httpd"
+    state: started
+    enabled: yes
+
+# #install aws-cli
+# - name: Install aws-cli package dependencies.
+#   package: name={{ item }} state=present
+#   with_items:
+#     - unzip
+
+# - name: Download the awscli bundle.
+#   get_url: url=https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip dest=/tmp/awscli.zip
+#   register: aws_cli_download_bundle
+
+# - name: Unarchive the installer.
+#   unarchive: src=/tmp/awscli.zip dest=/tmp copy=no creates=/tmp/awscli
+#   when: aws_cli_download_bundle.changed
+#   register: aws_cli_unarchive_installer
+
+# - name: Install awscli package.
+#   shell: sudo bash /tmp/aws/install
+#   when: aws_cli_unarchive_installer.changed
+
+- name: Configure AWS CLI default profile
+  shell: aws configure set {{ item.key }} {{ item.value }} --profile {{ aws_profile }}
+  no_log: True
+  with_dict:
+    aws_access_key_id: "{{ aws_access_key }}"
+    aws_secret_access_key: "{{ aws_secret_key }}"
+    region: "{{ aws_region }}"
+    format: "{{ aws_format }}"
+  become_user: "{{ user }}"
+  changed_when: false
+
+- name: Configure AWS CLI cloud_admin profile
+  shell: aws configure set {{ item.key }} {{ item.value }} --profile {{ aws_profile1 }}
+  no_log: True
+  with_dict:
+    aws_access_key_id: "{{ aws_access_key1 }}"
+    aws_secret_access_key: "{{ aws_secret_key1 }}"
+    region: "{{ aws_region }}"
+    format: "{{ aws_format }}"
+  become_user: "{{ user }}"
+  changed_when: false
+
+- name: Configure AWS CLI web_admin profile
+  shell: aws configure set {{ item.key }} {{ item.value }} --profile {{ aws_profile2 }}
+  no_log: True
+  with_dict:
+    aws_access_key_id: "{{ aws_access_key2 }}"
+    aws_secret_access_key: "{{ aws_secret_key2 }}"
+    region: "{{ aws_region }}"
+    format: "{{ aws_format }}"
+  become_user: "{{ user }}"
+  changed_when: false
+
+- name: Configure AWS CLI dev_ops profile
+  shell: aws configure set {{ item.key }} {{ item.value }} --profile {{ aws_profile3 }}
+  no_log: True
+  with_dict:
+    aws_access_key_id: "{{ aws_access_key3 }}"
+    aws_secret_access_key: "{{ aws_secret_key3 }}"
+    region: "{{ aws_region }}"
+    format: "{{ aws_format }}"
+  become_user: "{{ user }}"
+  changed_when: false
